@@ -35,6 +35,9 @@ class SonadorSegmentationReader(SonadorImageReader):
 
 			@returns SimpleITK.Image
 		'''
+		# Add reader keyword arguments to initailization
+		kwargs.update(self.kwargs)
+
 		# Initialize imaging volume and retrieve labelmap image
 		ivolume = self.init_imagingvolume(
 			*args, series=series, volume=volume, cache=cache, **kwargs)

@@ -59,9 +59,11 @@ class SonadorImageReader(ImageReader):
 
 	def init_imagingvolume(self, *args,
 			series: Optional[ImagingSeries]=None, volume: Optional[SonadorImagingVolume]=None, 
-			cache=False):
+			cache=False, **kwargs):
 		'''	Initialize Sonador imaging volume
 		'''
+		kwargs.update(self.kwargs)
+
 		# Ensure that either or a volume or an imaging series was provided
 		if series is None and volume is None:
 			raise ValueError('Unable to read imaging data. Please provide a valid '
@@ -72,7 +74,7 @@ class SonadorImageReader(ImageReader):
 		# 2. cached volume attribute
 		# 3. initialize volume from series
 		ivolume = volume or getattr(series, self.cache_attr, None) \
-			or SonadorImagingVolume(series, *self.args, **self.kwargs)
+			or SonadorImagingVolume(series, *self.args, **kwargs)
 
 		# Cache a copy of the volume to speed up downstream transform operations
 		if series is None:
